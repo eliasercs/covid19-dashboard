@@ -2,6 +2,6 @@
 
 ### Integrantes:
 * Eduardo Cid
-* Gonzalo Cheuqueman
+* Gonzalo Cheuquemán
 * Matias Soto
 * Eliaser Concha
