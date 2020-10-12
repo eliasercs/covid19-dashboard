@@ -63,14 +63,14 @@ def main():
     st.title('Positividad ICOVID Chile')
 
     st.header('Vista regional')
-
+    
     df = get_data_reg()
     l_reg = list(df['Region'].dropna().unique())
     regiones = st.multiselect('Regiones', l_reg, l_reg, key=0)
 
     op = st.checkbox("Suavizar datos (Promedio móvil 7 días)", value=True, key=0)
     fig = my_plot_reg(df, regiones, op)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True) 
 
     st.header('Vista comunal')
 
@@ -84,6 +84,6 @@ def main():
 
     op = st.checkbox("Suavizar datos (Promedio móvil 7 días)", value=True, key=1)
     fig = my_plot(df, comunas, op)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True) 
 
     st.markdown("Datos: [Ministerio de Ciencia](https://github.com/MinCiencia/Datos-COVID19)")
