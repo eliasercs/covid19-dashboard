@@ -13,16 +13,16 @@ import ocupacion_hospitalaria
 import vista_icovid
 
 # cd Downloads\Python\Streamlit
-# streamlit run app.py    
+# streamlit run app.py
 
 # Config
 st.beta_set_page_config(
     page_title="Covid-19 Chile",
- 	layout="centered",
- 	initial_sidebar_state="expanded",
+    layout="centered",
+    initial_sidebar_state="expanded",
 )
 
-# Sidebar   
+# Sidebar
 st.sidebar.title('Navegación')
 opt = st.sidebar.radio("",
     ("Casos", "Defunciones Registro Civil", "Datos Deis", "Ocupación Hospitalaria","Positivad Diaria")
