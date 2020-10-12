@@ -1,5 +1,7 @@
 # covid19-dashboard
 
-Branch perteneciente a Gonzalo F. Cheuquemán A.
-
-:^)
+### Integrantes:
+* Eduardo Cid
+* Gonzalo Cheuqueman
+* Matias Soto
+* Eliaser Concha
