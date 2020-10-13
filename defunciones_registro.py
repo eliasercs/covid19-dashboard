@@ -53,7 +53,7 @@ def get_data():
     l_def = []
     #dfs = pd.DataFrame(columns=["Año","Semana","Region","Comuna","Defunciones"])
     grouped = df.groupby(["Año","Semana"])
-    for name, group in grouped: 
+    for name, group in grouped:
         for reg, comunas in dicc_regiones.items():
             for comuna in comunas:
                 #dfs.loc[dfs.shape[0]] = [name[0],name[1],reg,comuna,sum(group[comuna])]
@@ -86,9 +86,9 @@ def grafico_nacional(dfs):
             l_def.append(sum(group2["Defunciones"]))
 
         fig.add_trace(go.Scatter(x=l_semana[1:-1], y=l_def[1:-1],
-                        mode='lines',
-                        name=year,
-                        marker_color=colors[i]))
+            mode='lines',
+            name=year,
+            marker_color=colors[i]))
 
         i += 1
 
@@ -109,9 +109,9 @@ def grafica_region(dfs, region):
             l_semana.append(semana)
             l_def.append(sum(group2["Defunciones"]))
         fig.add_trace(go.Scatter(x=l_semana[1:-1], y=l_def[1:-1],
-                    mode='lines',
-                    name=year,
-                    marker_color=colors[i]))
+            mode='lines',
+            name=year,
+            marker_color=colors[i]))
         i += 1
     fig.update_layout(title_text=f'Defunciones inscritas en Región {region}',  xaxis_title='Número de semana')
     return fig
@@ -127,7 +127,7 @@ def main():
     st.header('Gráfico Nacional')
     fig = grafico_nacional(df)
     st.plotly_chart(fig, use_container_width=True)
-	
+
     regions = get_regions()
     st.header('Gráfico por regiones')
     reg = st.selectbox('Región', regions)
@@ -147,4 +147,4 @@ opt = st.sidebar.radio("",
 if opt == "Defunciones Registro Civil":
     main_defunciones()
 '''
-    
+

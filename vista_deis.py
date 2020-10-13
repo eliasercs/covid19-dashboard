@@ -18,7 +18,7 @@ def get_data():
 @st.cache
 def get_deaths(data_2020_raw, region, mes):
     age_groups = ['< 1','1 a 4','5 a 9','10 a 14','15 a 19','20 a 24','25 a 29','30 a 34','35 a 39','40 a 44','45 a 49','50 a 54','55 a 59','60 a 64','65 a 69','70 a 74','75 a 79','80 a 84','85 a 89','90 a 99','100 +']
-    
+
     deaths = pd.DataFrame()
     deaths['edades'] = age_groups + ['Total']
     for causa in data_2020_raw['causa'].unique():
@@ -218,15 +218,15 @@ def main():
 
     meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto']
     mes = st.multiselect('Elegir meses', meses, ['Junio','Julio'])
-    num_mes = [int(meses.index(m)) + 1 for m in mes] 
+    num_mes = [int(meses.index(m)) + 1 for m in mes]
 
     try:
         deaths, deaths_percentage = get_deaths(df_reg, reg, num_mes)
         fig = my_plot(deaths_percentage, reg)
-        st.plotly_chart(fig, use_container_width=True) 
+        st.plotly_chart(fig, use_container_width=True)
 
-        if st.checkbox("Mostrar datos", value=False, key=0): 
-            st.write(deaths_percentage)  
+        if st.checkbox("Mostrar datos", value=False, key=0):
+            st.write(deaths_percentage)
     except:
         st.write('Se ha producido un error')
 
@@ -252,8 +252,8 @@ def main():
     fig = my_plot_2(df_reg, op)
     st.plotly_chart(fig, use_container_width=True)
 
-    if st.checkbox("Mostrar datos", value=False, key=1): 
-        st.write(df_reg)  
+    if st.checkbox("Mostrar datos", value=False, key=1):
+        st.write(df_reg)
 
     st.markdown('---')
     st.title(f'Defunciones Región {reg} por comuna')
