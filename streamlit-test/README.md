@@ -8,7 +8,11 @@
 
 ## CSV's utilizados
 
+* [Producto 9: Pacientes COVID-19 en UCI por grupo de edad](https://github.com/MinCiencia/Datos-COVID19/tree/master/output/producto9)
+
 ## Comandos a utilizar
 
 * pipenv shell -> Arranca el entorno virtual
 * streamlit run index.py -> Inicia toda la aplicación abriendo una pestaña en el navegador
+* Ctrl + C -> Para finalizar la aplicación
+* exit -> Para salir del entorno virtual
