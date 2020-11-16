@@ -53,7 +53,7 @@ def get_data():
     l_def = []
     #dfs = pd.DataFrame(columns=["Año","Semana","Region","Comuna","Defunciones"])
     grouped = df.groupby(["Año","Semana"])
-    for name, group in grouped:
+    for name, group in grouped: 
         for reg, comunas in dicc_regiones.items():
             for comuna in comunas:
                 #dfs.loc[dfs.shape[0]] = [name[0],name[1],reg,comuna,sum(group[comuna])]
@@ -86,9 +86,9 @@ def grafico_nacional(dfs):
             l_def.append(sum(group2["Defunciones"]))
 
         fig.add_trace(go.Scatter(x=l_semana[1:-1], y=l_def[1:-1],
-            mode='lines',
-            name=year,
-            marker_color=colors[i]))
+                        mode='lines',
+                        name=year,
+                        marker_color=colors[i]))
 
         i += 1
 
@@ -109,40 +109,12 @@ def grafica_region(dfs, region):
             l_semana.append(semana)
             l_def.append(sum(group2["Defunciones"]))
         fig.add_trace(go.Scatter(x=l_semana[1:-1], y=l_def[1:-1],
-            mode='lines',
-            name=year,
-            marker_color=colors[i]))
+                    mode='lines',
+                    name=year,
+                    marker_color=colors[i]))
         i += 1
     fig.update_layout(title_text=f'Defunciones inscritas en Región {region}',  xaxis_title='Número de semana')
     return fig
-
-# Esto está siendo escrito por Eliaser
-def get_comunas():
-    URL = "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19_T.csv"
-    listaComunas = pd.read_csv(URL,header=2)
-    return list(listaComunas.columns)
-
-def grafica_comuna(dfs, comuna):
-    dfs = dfs[dfs['Comuna']==comuna]
-    fig = go.Figure()
-    colors = ["seagreen","teal","deepskyblue","gray","red"]
-    grouped = dfs.groupby("Año")
-    e = 0
-    for year,group in grouped:
-        l_semana = []
-        l_def = []
-        grouped2 = group.groupby("Semana")
-        for semana, group2 in grouped2:
-            l_semana.append(semana)
-            l_def.append(sum(group2["Defunciones"]))
-        fig.add_trace(go.Scatter(x=l_semana[1:-1], y=l_def[1:-1],
-            mode='lines',
-            name=year,
-            marker_color=colors[e]))
-        e += 1
-    fig.update_layout(title_text=f'Defunciones inscritas en Comuna {comuna}',  xaxis_title='Número de semana')
-    return fig
-# Hasta aquí escribió Eliaser
 
 def main():
     st.title("Defunciones inscritas Registro Civil")
@@ -155,21 +127,13 @@ def main():
     st.header('Gráfico Nacional')
     fig = grafico_nacional(df)
     st.plotly_chart(fig, use_container_width=True)
-
+	
     regions = get_regions()
     st.header('Gráfico por regiones')
     reg = st.selectbox('Región', regions)
     # reg = st.selectbox('Region', list(set(df['Region'])))
     fig = grafica_region(df, reg)
     st.plotly_chart(fig, use_container_width=True)
-
-    # Aquí estuvo Eliaser
-    comunas = get_comunas()
-    st.header('Gráfico por comuna by Eliaser')
-    com = st.selectbox('Comuna',comunas)
-    g = grafica_comuna(df, com)
-    st.plotly_chart(g, use_container_width=True)
-    # Hasta aquí estuvo Eliaser
 
     st.markdown("Autor: [Joaquín Silva](https://github.com/joaquin-silva)")
     st.markdown("Datos: [Ministerio de Ciencia](https://github.com/MinCiencia/Datos-COVID19)")
@@ -183,4 +147,4 @@ opt = st.sidebar.radio("",
 if opt == "Defunciones Registro Civil":
     main_defunciones()
 '''
-
+    
