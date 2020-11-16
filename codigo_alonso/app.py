@@ -1,7 +1,4 @@
 <<<<<<< HEAD:app.py
-=======
-<<<<<<< HEAD:app.py
->>>>>>> eliaser:codigo_alonso/app.py
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -46,8 +43,6 @@ if opt == "Ocupación Hospitalaria":
 
 if opt == "Positivad Diaria":
     vista_icovid.main()
-<<<<<<< HEAD:app.py
-=======
 =======
 import streamlit as st
 import numpy as np
@@ -93,5 +88,4 @@ if opt == "Ocupación Hospitalaria":
 
 if opt == "Positivad Diaria":
     vista_icovid.main()
->>>>>>> eliaser:codigo_alonso/app.py
 >>>>>>> eliaser:codigo_alonso/app.py
