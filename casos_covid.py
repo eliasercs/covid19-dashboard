@@ -4,6 +4,7 @@ import altair as alt
 import streamlit as st
 import datetime
 import calendar
+import casos_activos
 
 @st.cache
 def get_data():
@@ -73,6 +74,16 @@ def my_streamgraph_plot(df, value_name, title):
 		)
 	)
 	return chart
+
+def menu():
+	menu = st.sidebar.selectbox(
+		'Seleccione un criterio a comparar',
+		('Casos nuevos','Casos activos')
+		)
+	if menu=='Casos nuevos':
+		main()
+	elif menu=='Casos activos':
+		casos_activos.main()
 
 def main():
 	st.sidebar.markdown('---')
