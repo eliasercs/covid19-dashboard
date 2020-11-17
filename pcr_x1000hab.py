@@ -6,7 +6,7 @@ import numpy as np
 URL_DATOS = ('https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/input/ReporteDiario/PCR.csv')
 
 st.title("Cantidad de exámenes PCR por cada 1000 habitantes")
-st.header("by matsoan")
+
 
 pcr_csv = pd.read_csv(URL_DATOS, index_col='Codigo region')
 
@@ -32,12 +32,6 @@ st.write(pcr_final)
 
 
 
-#st.write(pcr_csv[['Region','Codigo region']])
-#st.write(pcr_csv['Region']) # muestra only region
-#st.write(pcr_csv)
-#st.write(pcr_csv.loc[:, '2020-04-09' :])
-#st.write((pcr_csv.loc[:,'2020-04-09':].sort_values(by='Codigo region', ascending = True )))
-#st.write(pcr_csv.loc[pcr_csv['Region'] == 'Antofagasta'].sum(axis=1))
 
-#st.header("Población total: " + str(pcr_csv["Poblacion"].sum()))
+
 
