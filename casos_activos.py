@@ -6,6 +6,7 @@ from datetime import datetime
 now = datetime.now()
 producto = 'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto19/CasosActivosPorComuna.csv'
 
+@st.cache
 def obtener_regiones():
     datos = pd.read_csv(producto,header=0)
     reg = []
@@ -25,6 +26,7 @@ def obtener_comuna(region):
                 comunas.append(df['Comuna'][i])
     return comunas
 
+@st.cache
 def get_total_casos_activos_region_fecha(date, region):
     data = pd.read_csv(producto,header=0)
     total = 0
@@ -37,6 +39,7 @@ def get_total_casos_activos_region_fecha(date, region):
     else:
         return 'La fecha ingresada no existe'
 
+@st.cache
 def get_fechas():
     data = pd.read_csv(producto)
     columnas = data.columns
@@ -45,6 +48,7 @@ def get_fechas():
         array.append(columnas[i])
     return array
 
+@st.cache
 def get_totales_activos(fechas,region):
     total_activos = []
     for e in fechas:
@@ -64,13 +68,34 @@ def main():
     st.info('INFORMACIÓN: Considere que la frecuencia de actualización de los datos oficiales es cada 2 o 3 días')
     if graf=='Total de casos activos por región':
         st.title('Total de casos activos por Región')
-        region = st.selectbox(
-            'Seleccione la región de su preferencia',
-            obtener_regiones()
+        region = st.multiselect('Seleccione una o varias regiones a comparar',
+            options=obtener_regiones(),
+            default=['Arica y Parinacota','Antofagasta','La Araucania']
         )
-        #st.write(get_total_casos_activos_region_fecha(end_time.strftime('%Y-%m-%d'),region))
-        #st.write(get_totales_activos(fechas,region))
-        chart_data = st.line_chart(get_totales_activos(fechas,region))
+        dfs = []
+        for i in region:
+            dfs.append({
+                    'Fecha': fechas,
+                    ''+i+'': get_totales_activos(fechas,i)
+                })
+
+        if len(region)==3:
+            data = {}
+            for df in range(len(dfs)):
+                if df-1>=0 and df+1<len(dfs):
+                    data = {**dfs[df-1],**dfs[df],**dfs[df+1]}
+            mostrar_datos = st.checkbox('Mostrar datos', value=False, key=None)
+            if mostrar_datos:
+                st.dataframe(data)
+            del data['Fecha']
+            st.line_chart(data)
+        else:
+            st.info('Por obligación debes tener 3 regiones seleccionadas')
+        
+        #for e in dfs:
+            #if mostrar_datos:
+                #st.dataframe(e)
+            #st.line_chart(e['Casos Activos Totales'])
     elif graf=='Total de casos activos por comuna':
         st.title('Total de casos activos por Comuna')
         region = st.selectbox(
