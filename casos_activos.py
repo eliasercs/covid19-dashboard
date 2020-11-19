@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 from datetime import date
 from datetime import datetime
+from collections import defaultdict
+from itertools import chain
 
 now = datetime.now()
 producto = 'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto19/CasosActivosPorComuna.csv'
@@ -72,39 +74,32 @@ def main():
             options=obtener_regiones(),
             default=['Arica y Parinacota','Antofagasta','La Araucania']
         )
-        dfs = []
+        casos = []
         for i in region:
-            dfs.append({
-                    'Fecha': fechas,
-                    ''+i+'': get_totales_activos(fechas,i)
-                })
-
-        if len(region)==3:
-            data = {}
-            for df in range(len(dfs)):
-                if df-1>=0 and df+1<len(dfs):
-                    data = {**dfs[df-1],**dfs[df],**dfs[df+1]}
-            mostrar_datos = st.checkbox('Mostrar datos', value=False, key=None)
-            if mostrar_datos:
-                st.dataframe(data)
-            del data['Fecha']
-            st.line_chart(data)
-        else:
-            st.info('Por obligación debes tener 3 regiones seleccionadas')
+            casos.append([
+                get_totales_activos(fechas,i)
+            ])
         
-        #for e in dfs:
-            #if mostrar_datos:
-                #st.dataframe(e)
-            #st.line_chart(e['Casos Activos Totales'])
+        diccionario = {'Fecha':fechas}
+        for r in range(len(region)):
+            for j in range(len(casos[r])):
+                diccionario[region[r]] = casos[r][j]
+
+        mostrar_datos = st.checkbox('Mostrar datos', value=False, key=None)
+        if mostrar_datos:
+            st.dataframe(diccionario)
+        del diccionario['Fecha']
+        st.line_chart(diccionario)
     elif graf=='Total de casos activos por comuna':
         st.title('Total de casos activos por Comuna')
         region = st.selectbox(
             'Seleccione la región de su preferencia',
             obtener_regiones()
         )
-        comuna = st.selectbox(
+        st.multiselect(
             'Seleccione la comuna de su preferencia',
-            obtener_comuna(region)
+            obtener_comuna(region),
+            default = None
         )
 
     st.markdown('Autor: [Eliaser Concha](https://github.com/eliasercs)')
