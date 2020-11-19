@@ -2,8 +2,7 @@ import streamlit as st
 import pandas as pd
 from datetime import date
 from datetime import datetime
-from collections import defaultdict
-from itertools import chain
+import numpy as np
 
 now = datetime.now()
 producto = 'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto19/CasosActivosPorComuna.csv'
@@ -42,6 +41,19 @@ def get_total_casos_activos_region_fecha(date, region):
         return 'La fecha ingresada no existe'
 
 @st.cache
+def get_total_casos_activos_comuna_fecha(date,comuna):
+    data = pd.read_csv(producto,header=0)
+    total = 0
+    if date in data.columns:
+        df = data[['Comuna',date]]
+        for i in df.index:
+            if df['Comuna'][i]==comuna:
+                total = df[date][i]
+        return total
+    else:
+        return 'La fecha ingresada no existe'
+
+@st.cache
 def get_fechas():
     data = pd.read_csv(producto)
     columnas = data.columns
@@ -56,6 +68,13 @@ def get_totales_activos(fechas,region):
     for e in fechas:
         if get_total_casos_activos_region_fecha(e,region)!='La fecha ingresada no existe':
             total_activos.append(get_total_casos_activos_region_fecha(e,region))
+    return total_activos
+
+def get_totales_activos_comunas(fechas,comuna):
+    total_activos = []
+    for e in fechas:
+        if get_total_casos_activos_comuna_fecha(e,comuna)!='La fecha ingresada no existe':
+            total_activos.append(get_total_casos_activos_comuna_fecha(e,comuna))
     return total_activos
 
 def main():
@@ -96,10 +115,26 @@ def main():
             'Seleccione la región de su preferencia',
             obtener_regiones()
         )
-        st.multiselect(
+        comunas = st.multiselect(
             'Seleccione la comuna de su preferencia',
             obtener_comuna(region),
             default = None
         )
+        casos = []
+        for c in comunas:
+            casos.append([
+                get_totales_activos_comunas(fechas,c)
+            ])
+        
+        diccionario = {'Fecha':fechas}
+        for com in range(len(comunas)):
+            for j in range(len(casos[com])):
+                diccionario[comunas[com]] = casos[com][j]
+        
+        mostrar_datos = st.checkbox('Mostrar datos', value=False, key=None)
+        if mostrar_datos:
+            st.dataframe(diccionario)
+        del diccionario['Fecha']
+        st.line_chart(diccionario)
 
     st.markdown('Autor: [Eliaser Concha](https://github.com/eliasercs)')
