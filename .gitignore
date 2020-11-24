@@ -1,2 +1,5 @@
 
-__pycache__/
+# Ignorar archivos de mi entorno virtual (pipenv)
+
+Pipfile
+Pipfile.lock
