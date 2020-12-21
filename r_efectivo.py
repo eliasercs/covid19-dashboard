@@ -70,7 +70,7 @@ def show_data():
             st.subheader('Fecha:' + str(date))
             st.bar_chart(result_reg)
             data_btn  = st.checkbox("Mostrar tabla de datos")
-            fulldata_btn = st.checkbox("Mostrar tabla de datos completa")
+            fulldata_btn = st.checkbox("Mostrar límites superiores e inferiores")
 
             if data_btn:
                 grf2 = st.write(result_reg)
@@ -85,7 +85,7 @@ def show_data():
         result_nac = get_nac_fechas(date_inicio,date_final)
         st.line_chart(result_nac)
 
-        #st.write(result_nac)
+        
     
     
-show_data()
+

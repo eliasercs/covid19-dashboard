@@ -98,7 +98,7 @@ def get_reg_fecha(fecha):
     else:
         return r_reg
 
-def showdata():
+def show_data():
     current = datetime.datetime.now()
     yr = current.year
     month = current.month
@@ -110,7 +110,7 @@ def showdata():
         'Gráfico a nivel nacional', 'Comparación por regiones'])
     if sel == 'Gráfico a nivel nacional':
         acu = st.checkbox('Mostrar carga acumulada')
-        # agregar isinstance + mensaje si no se encontraron datos
+
         if acu:
             date_inicio = st.date_input(
                 'Fecha inicio', datetime.date(yr, month, day))
@@ -136,14 +136,3 @@ def showdata():
             st.error(result_reg)
 
 
-showdata()
-#lista = [(i,j) for i, j in diccionario_regiones().items()]
-#lista = list(diccionario_regiones().items())
-#st.multiselect('Selecciona region', lista, default=[lista[0]])
-#st.multiselect('Seleccione región ', [
-#               'Tarapacá', 'Antofagasta', 'Atacama',
-#               'Coquimbo', 'Valparaíso', 'Del Libertador General Bernardo O’Higgins',
-#               'Maule', 'Biobio', 'La Araucanía', 'Aysén', 'Magallanes y la Antártica',
-#               'Metropolitana', 'Los Ríos', 'Arica y Parinacota', 'Ñuble'], default=['Tarapacá'])
-# st.write(get_carga_nac_a())
-# st.write(get_carga_nac())

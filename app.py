@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
+import plotly
 import plotly.graph_objects as go
 import plotly.express as px
 import datetime
@@ -11,6 +12,7 @@ import casos_covid
 import vista_deis
 import ocupacion_hospitalaria
 import vista_icovid
+import tasa_pcr
 
 # cd Downloads\Python\Streamlit
 # streamlit run app.py    
@@ -25,9 +27,12 @@ st.beta_set_page_config(
 # Sidebar   
 st.sidebar.title('Navegación')
 opt = st.sidebar.radio("",
-    ("Casos", "Defunciones Registro Civil", "Datos Deis", "Ocupación Hospitalaria","Positivad Diaria")
+    ("Casos", "Defunciones Registro Civil", "Datos Deis",
+     "Ocupación Hospitalaria","Positivad Diaria",
+      "Tasa PCR", "Índice R", "Tiempo de examen y laboratorio",
+      "Indicador de carga"
+      )
 )
-
 if opt == "Defunciones Registro Civil":
     defunciones_registro.main()
 
@@ -42,3 +47,15 @@ if opt == "Ocupación Hospitalaria":
 
 if opt == "Positivad Diaria":
     vista_icovid.main()
+
+if opt == "Tasa PCR":
+    tasa_pcr.show_data()
+
+if opt == "Índice R":
+    r_efectivo.show_data()
+
+if opt == "Indicador de carga":
+    indicador_carga.show_data()
+
+if opt == "Tiempo de examen y laboratorio":
+    examenlab.show_data()
