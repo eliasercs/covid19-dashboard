@@ -13,6 +13,9 @@ import vista_deis
 import ocupacion_hospitalaria
 import vista_icovid
 import tasa_pcr
+import r_efectivo
+import examenlab
+import indicador_carga
 
 # cd Downloads\Python\Streamlit
 # streamlit run app.py    
