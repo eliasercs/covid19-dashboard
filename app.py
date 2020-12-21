@@ -32,7 +32,7 @@ if opt == "Defunciones Registro Civil":
     defunciones_registro.main()
 
 if opt == "Casos":
-    casos_covid.menu()
+    casos_covid.main()
 
 if opt == "Datos Deis":
     vista_deis.main()
