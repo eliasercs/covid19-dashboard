@@ -49,18 +49,12 @@ def pcr_by_reg(reg):
     df = get_datos()
     df = df.query('Region.isin(@reg)')
     df.groupby(['Region']).sum()
-    df.sort_index()
+    df
     return df 
 
 def show_data():
     st.title("Cantidad de exámenes PCR por cada 1000 habitantes")
-    reg = st.multiselect('Seleccione región ', [
-        'Tarapaca', 'Antofagasta', 'Atacama',
-        'Coquimbo', 'Valparaiso', 'Del Libertador General Bernardo O’Higgins',
-        'Maule', 'Biobio', 'La Araucanía', 'Aysén', 'Magallanes y la Antártica',
-        'Metropolitana', 'Los Ríos', 'Arica y Parinacota', 'Ñuble'], default=['Tarapaca'])
-    #st.write(get_datos())
-    st.line_chart(pcr_by_reg(reg))
+
     st.bar_chart(get_graficable())
     datos_btn = st.checkbox("Mostrar datos")
     if datos_btn:
@@ -70,4 +64,4 @@ def show_data():
             graf = st.write(get_datos())
 
 
-show_data()
+
