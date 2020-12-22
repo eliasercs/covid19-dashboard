@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import datetime
 import casos_activos
+import examenlab
 
 now = datetime.datetime.now()
 
@@ -151,7 +152,7 @@ def vista():
     elif indicador=='Consulta temprana':
         vista_consulta_temprana()
     elif indicador=='Tiempo de examen y laboratorio':
-        st.title('EEEEEEEEEEEEEEEEE')
+        examenlab.show_data()
 
 
 if __name__ == "__main__":

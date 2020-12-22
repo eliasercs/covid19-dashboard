@@ -16,6 +16,7 @@ import tasa_pcr
 import r_efectivo
 import examenlab
 import indicador_carga
+import trazabilidad
 
 # cd Downloads\Python\Streamlit
 # streamlit run app.py    
@@ -33,7 +34,7 @@ opt = st.sidebar.radio("",
     ("Casos", "Defunciones Registro Civil", "Datos Deis",
      "Ocupación Hospitalaria","Positivad Diaria",
       "Tasa PCR", "Índice R", "Tiempo de examen y laboratorio",
-      "Indicador de carga"
+      "Indicador de carga","Trazabilidad"
       )
 )
 if opt == "Defunciones Registro Civil":
@@ -62,3 +63,6 @@ if opt == "Indicador de carga":
 
 if opt == "Tiempo de examen y laboratorio":
     examenlab.show_data()
+
+if opt == "Trazabilidad":
+    trazabilidad.vista()

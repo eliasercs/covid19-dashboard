@@ -6,6 +6,7 @@ import datetime
 import calendar
 import casos_activos
 import casos_comuna
+import activos_vs_recuperados
 
 @st.cache
 def get_data():
@@ -79,7 +80,7 @@ def my_streamgraph_plot(df, value_name, title):
 def menu():
 	menu = st.sidebar.selectbox(
 		'Seleccione un criterio a comparar',
-		('Casos Nuevos','Casos Activos','Casos Comuna')
+		('Casos Nuevos','Casos Activos','Casos Comuna','Activos vs Recuperados')
 	)
 	if menu=='Casos Nuevos':
 		main()
@@ -87,6 +88,8 @@ def menu():
 		casos_activos.vista_activos()
 	elif menu=='Casos Comuna':
 		casos_comuna.main()
+	elif menu=='Activos vs Recuperados':
+		activos_vs_recuperados.vista()
 
 def main():
 	st.sidebar.markdown('---')
