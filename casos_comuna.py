@@ -4,6 +4,7 @@ import pandas as pd
 
 description = 'Esta sección de la aplicación busca permitir la comparación de nuevos casos y los casos totales entre las comunas de una misma región, un aspecto que consideramos relevante para monitorear de mejor manera la nueva enfermedad.'
 
+@st.cache
 def obtener_fechas():
     url = 'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19.csv'
     data = pd.read_csv(url,header=0)
@@ -14,6 +15,7 @@ def obtener_fechas():
             array.append(columnas[i])
     return array
 
+@st.cache
 def obtener_semanas():
     url = 'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto15/SemanasEpidemiologicas.csv'
     data = pd.read_csv(url,header=0)
@@ -28,6 +30,7 @@ def obtener_semanas():
             semanas.append(columnas[j])
     return semanas
 
+@st.cache
 def info_semanas_epid():
     url = 'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto15/SemanasEpidemiologicas.csv'
     data = pd.read_csv(url,header=0)
@@ -97,7 +100,7 @@ def main():
         casos_activos.obtener_regiones()
     )
     comunas = st.sidebar.multiselect('Seleccione la comuna de su preferencia',
-        casos_activos.obtener_comuna(region),
+        casos_activos.obtener_comunas(region),
         default = None
     )
     st.title(criterio+' por comuna')

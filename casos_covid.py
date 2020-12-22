@@ -76,6 +76,18 @@ def my_streamgraph_plot(df, value_name, title):
 	)
 	return chart
 
+def menu():
+	menu = st.sidebar.selectbox(
+		'Seleccione un criterio a comparar',
+		('Casos Nuevos','Casos Activos','Casos Comuna')
+	)
+	if menu=='Casos Nuevos':
+		main()
+	elif menu=='Casos Activos':
+		casos_activos.vista_activos()
+	elif menu=='Casos Comuna':
+		casos_comuna.main()
+
 def main():
 	st.sidebar.markdown('---')
 
