@@ -1,140 +1,126 @@
 import streamlit as st
 import pandas as pd
-from datetime import date
-from datetime import datetime
-import numpy as np
+import datetime
 
-now = datetime.now()
-producto = 'https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto19/CasosActivosPorComuna.csv'
+now = datetime.datetime.now()
+
+def obtener_datos():
+    url = "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto19/CasosActivosPorComuna_std.csv"
+    return pd.read_csv(url,header=0)
+
+@st.cache
+def obtener_fecha_inicio():
+    df = obtener_datos()
+    fechas = []
+    for i in df['Fecha']:
+        if i not in fechas:
+            fechas.append(i)
+    return fechas[0]
 
 @st.cache
 def obtener_regiones():
-    datos = pd.read_csv(producto,header=0)
-    reg = []
-    regiones = datos['Region']
-    for i in regiones:
-        if i not in reg:
-            reg.append(i)
-    return reg
+    df = obtener_datos()
+    regiones = []
+    for i in df['Region']:
+        if i not in regiones:
+            regiones.append(i)
+    return regiones
 
-def obtener_comuna(region):
-    data = pd.read_csv(producto,header=0)
+@st.cache
+def obtener_comunas(region):
+    df = obtener_datos()
     comunas = []
-    df = data[['Region','Comuna']]
-    for i in df.index:
-        if df['Region'][i] == region:
-            if df['Comuna'][i] != 'Total' and df['Comuna'][i] != 'Desconocido '+region:
+    for i in range(len(df)):
+        if df['Region'][i]==region and (df['Comuna'][i]!='Desconocido '+region and df['Comuna'][i]!='Total'):
+            if df['Comuna'][i] not in comunas:
                 comunas.append(df['Comuna'][i])
     return comunas
 
-@st.cache
-def get_total_casos_activos_region_fecha(date, region):
-    data = pd.read_csv(producto,header=0)
-    total = 0
-    if date in data.columns:
-        df = data[['Region','Comuna',date]]
-        for i in df.index:
-            if df['Region'][i]==region and df['Comuna'][i] == 'Total':
-                total = df[date][i]
-        return total
-    else:
-        return 'La fecha ingresada no existe'
+@st.cache(allow_output_mutation=True)
+def filtrar_datos_region_fecha(region,fecha_inicio,fecha_termino):
+    df = obtener_datos()
+    df = pd.DataFrame(data=df)
+    data = pd.DataFrame()
+    for i in range(len(df)):
+        if df.loc[i,'Region']==region and df.loc[i,'Comuna']=='Total':
+            data[i] = df.loc[i]
+    data = data.T
+    data = data.drop(columns=['Codigo region','Comuna','Codigo comuna','Region','Poblacion'])
+    data = data.groupby(['Fecha']).sum()
+    data = data.loc[str(fecha_inicio):str(fecha_termino)]
+    data.rename(columns={'Casos activos':str(region)},inplace=True)
+    return data
 
-@st.cache
-def get_total_casos_activos_comuna_fecha(date,comuna):
-    data = pd.read_csv(producto,header=0)
-    total = 0
-    if date in data.columns:
-        df = data[['Comuna',date]]
-        for i in df.index:
-            if df['Comuna'][i]==comuna:
-                total = df[date][i]
-        return total
-    else:
-        return 'La fecha ingresada no existe'
+@st.cache(allow_output_mutation=True)
+def filtrar_datos_comuna_fecha(comuna,fecha_inicio,fecha_termino):
+    df = obtener_datos()
+    df = pd.DataFrame(data=df)
+    data = pd.DataFrame()
+    for i in range(len(df)):
+        if df.loc[i,'Comuna']==comuna:
+            data[i] = df.loc[i]
+    data = data.T
+    data = data.drop(columns=['Region','Codigo region','Codigo comuna','Poblacion','Comuna'])
+    data = data.groupby(['Fecha']).sum()
+    data = data.loc[str(fecha_inicio):str(fecha_termino)]
+    data.rename(columns={'Casos activos':str(comuna)},inplace=True)
+    return data
 
-@st.cache
-def get_fechas():
-    data = pd.read_csv(producto)
-    columnas = data.columns
-    array = []
-    for i in range(5,len(columnas)):
-        array.append(columnas[i])
-    return array
+def vista_activos():
+    day = now.day
+    month = now.month
+    year = now.year
 
-@st.cache
-def get_totales_activos(fechas,region):
-    total_activos = []
-    for e in fechas:
-        if get_total_casos_activos_region_fecha(e,region)!='La fecha ingresada no existe':
-            total_activos.append(get_total_casos_activos_region_fecha(e,region))
-    return total_activos
+    fecha_inicio = obtener_fecha_inicio()
 
-def get_totales_activos_comunas(fechas,comuna):
-    total_activos = []
-    for e in fechas:
-        if get_total_casos_activos_comuna_fecha(e,comuna)!='La fecha ingresada no existe':
-            total_activos.append(get_total_casos_activos_comuna_fecha(e,comuna))
-    return total_activos
+    st.title('Casos Activos')
 
-def main():
-    graf = st.selectbox(
-        'Seleccione un criterio a comparar',
-        ['Total de casos activos por región','Total de casos activos por comuna']
-    )
-    st.sidebar.markdown('---')
-    fechas = get_fechas()
-    st.sidebar.markdown('Primera fecha registrada: '+fechas[0])
-    st.sidebar.markdown('Última fecha registrada: '+fechas[-1])
+    start = st.date_input('Fecha de inicio',value=datetime.date(int(fecha_inicio[0:4]),int(fecha_inicio[5:7]),int(fecha_inicio[8:])),key=None)
+    end = st.date_input('Fecha de término',value=datetime.date(year,month,day),key=None)
+
+    criterio_comparacion = st.selectbox('Seleccione un criterio a comparar',['Región','Comuna'])
+
     st.info('INFORMACIÓN: Considere que la frecuencia de actualización de los datos oficiales es cada 2 o 3 días')
-    if graf=='Total de casos activos por región':
+    
+    if criterio_comparacion=='Región':
         st.title('Total de casos activos por Región')
-        region = st.multiselect('Seleccione una o varias regiones a comparar',
-            options=obtener_regiones(),
-            default=['Arica y Parinacota','Antofagasta','La Araucania']
-        )
-        casos = []
-        for i in region:
-            casos.append([
-                get_totales_activos(fechas,i)
-            ])
-        
-        diccionario = {'Fecha':fechas}
-        for r in range(len(region)):
-            for j in range(len(casos[r])):
-                diccionario[region[r]] = casos[r][j]
+        r = st.multiselect('Seleccione una o varias regiones',obtener_regiones(),default=['Arica y Parinacota','Tarapaca','Antofagasta'])
+        if len(r)>=1:
+            data = pd.DataFrame()
+            
+            data = filtrar_datos_region_fecha(r[0],start,end)
 
-        mostrar_datos = st.checkbox('Mostrar datos', value=False, key=None)
-        if mostrar_datos:
-            st.dataframe(diccionario)
-        del diccionario['Fecha']
-        st.line_chart(diccionario)
-    elif graf=='Total de casos activos por comuna':
+            for i in range(len(r)):
+                data[r[i]] = filtrar_datos_region_fecha(r[i],start,end)
+
+            mostrar_datos = st.checkbox('Mostrar datos',value=False,key=None)
+            st.success('Información encontrada en el rango de fechas: ' + str(start) + '/' + str(end))
+            if mostrar_datos:
+                st.table(data)
+            st.line_chart(data)
+        else:
+            st.error('Tiene que seleccionar al menos una región.')
+    elif criterio_comparacion=='Comuna':
         st.title('Total de casos activos por Comuna')
-        region = st.selectbox(
-            'Seleccione la región de su preferencia',
-            obtener_regiones()
-        )
-        comunas = st.multiselect(
-            'Seleccione la comuna de su preferencia',
-            obtener_comuna(region),
-            default = None
-        )
-        casos = []
-        for c in comunas:
-            casos.append([
-                get_totales_activos_comunas(fechas,c)
-            ])
-        
-        diccionario = {'Fecha':fechas}
-        for com in range(len(comunas)):
-            for j in range(len(casos[com])):
-                diccionario[comunas[com]] = casos[com][j]
-        
-        mostrar_datos = st.checkbox('Mostrar datos', value=False, key=None)
-        if mostrar_datos:
-            st.dataframe(diccionario)
-        del diccionario['Fecha']
-        st.line_chart(diccionario)
+        r = st.selectbox('Seleccione una región',obtener_regiones())
+        c = st.multiselect('Seleccione una comuna',options=obtener_comunas(r),default=None)
+        if len(c)>=1:
+            data = pd.DataFrame()
+            data = filtrar_datos_comuna_fecha(c[0],start,end)
+
+            for com in range(len(c)):
+                data[c[com]] = filtrar_datos_comuna_fecha(c[com],start,end)
+
+            mostrar_datos = st.checkbox('Mostrar datos',value=False,key=None)
+            st.success('Información encontrada en el rango de fechas: ' + str(start) + '/' + str(end))
+            if mostrar_datos:
+                st.table(data)
+            st.line_chart(data)
+
+        else:
+            st.error('Tiene que seleccionar al menos una comuna.')
 
     st.markdown('Autor: [Eliaser Concha](https://github.com/eliasercs)')
+
+if __name__=='__main__':
+    vista_activos()
