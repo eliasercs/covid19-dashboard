@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>covid19-dashboard</title>
+    <link rel="shortcut icon" href="./docs/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="./docs/logo.png" alt="" width="30" height="30"
+                        class="d-inline-block align-text-top">
+                    COVID-19 Dashboard
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                      <a class="nav-link active" aria-current="page" href="https://eliasercs.github.io/">Portafolio</a>
+                    </div>
+                  </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container p-3">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="text-center text-white">Métricas Incorporadas</h3>
+                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5"
+                            aria-label="Slide 6"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="6"
+                            aria-label="Slide 7"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="7"
+                            aria-label="Slide 8"></button>
+                    </div>
+
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="./screenshots/casos_activos.PNG" class="d-block w-100" alt="Casos Activos">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Criterio para medir los casos activos a nivel nacional y regional.</h5>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./screenshots/casos_activos_recuperados.PNG" class="d-block w-100"
+                                alt="Casos Activos vs Recuperados">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Criterio para comparar los casos activos vs los casos recuperados.</h5>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./screenshots/casos_confirmados_comuna.PNG" class="d-block w-100"
+                                alt="Casos Activos vs Recuperados">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Criterio para comparar los casos confirmados a nivel regional y comunal.</h5>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./screenshots/indicador_carga.PNG" class="d-block w-100"
+                                alt="Casos Activos vs Recuperados">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Criterio para medir el indicador de carga.</h5>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./screenshots/pcr_1000_habitantes.PNG" class="d-block w-100"
+                                alt="Casos Activos vs Recuperados">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Criterio para medir la toma de PCR por cada 1000 habitantes.</h5>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./screenshots/r_efectivo.PNG" class="d-block w-100"
+                                alt="Casos Activos vs Recuperados">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Criterio para medir el R efectivo.</h5>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./screenshots/tiempo_examen_laboratorio.PNG" class="d-block w-100"
+                                alt="Casos Activos vs Recuperados">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Criterio para medir el tiempo de examen y laboratorio.</h5>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./screenshots/trazabilidad.PNG" class="d-block w-100"
+                                alt="Casos Activos vs Recuperados">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Criterio para medir la trazabilidad de la enfermedad.</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h3 class="text-center text-white">Descripción</h3>
+                <p>Proyecto creado en la asignatura "Taller de Integración 2", consiste en elaborar una dashboard
+                    cuyo objetivo es mostrar o visualizar de mejor manera la evolución de la enfermedad COVID-19 en
+                    Chile.
+                    El proyecto base es propiedad de <a href="https://github.com/alonsosilvaallende"
+                        target="_blank">Alonso Silva</a>, solo que se le incorporaron nuevas métricas
+                    (las que se visualizan en el carusel de imágenes).
+                </p>
+                <p>Tecnologías involucradas: Python y Streamlit</p>
+                <button class="btn btn-primary"><a class="text-white"
+                        href="https://covid19-dashboard-chile.herokuapp.com/" target="_blank">Ver demo</a></button>
+                <button class="btn btn-success"><a class="text-white"
+                        href="https://github.com/eliasercs/covid19-dashboard" target="_blank">Código Fuente</a></button>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
